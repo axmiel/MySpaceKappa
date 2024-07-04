@@ -37,6 +37,7 @@
 }
 
 .post-date {
+    
 }
 
 .input-container {
@@ -48,6 +49,7 @@
 
 .input-container input {
     border: 1px solid black;
+    flex-grow: 1;
 }
 
 button {
