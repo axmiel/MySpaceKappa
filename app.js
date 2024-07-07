@@ -1,12 +1,12 @@
-const today = new Date().toDateString().substring(4);
+const button = document.getElementById('publish-button');
 
-const button = document.getElementById('publish-button').addEventListener('click', function() {
-
+button.addEventListener('click', function() {
     const postContent = document.createElement('p');
     const postInput = document.getElementById('post-input');
     const postDate = document.createElement('p');
     const newPost = document.createElement('div');
     const postInnerContainer = document.querySelector('.posts-inner-container');
+    const currentDate = new Date().toLocaleString();
     
     //add classes to created elements
     postContent.classList.add('post-content');
@@ -17,11 +17,11 @@ const button = document.getElementById('publish-button').addEventListener('click
     postContent.textContent = postInput.value;
     
     //add current date as string to 
-    postDate.textContent = today.substring(4, 6) + ' ' + today.substring(0, 3) + ' ' + today.substring(7,11);
-
+    postDate.textContent = currentDate;
+    console.log(postDate);
     newPost.append(postContent, postDate);
 
     postInnerContainer.append(newPost);
     
     postInput.value = '';
-})
+});
