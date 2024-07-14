@@ -33,8 +33,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 5px;
-    padding: 5px;
+    margin: 5px 5px 0px 5px;
+    padding: 5px 5px 0px 5px;
 }
 
 .post-content {
@@ -44,15 +44,39 @@
     background-color: rgba(245, 245, 245, 1);
     box-shadow: 2px 2px 4px rgba(65, 88, 82, 0.3);
     line-break: normal;
+    word-break: break-word;
+}
+
+.sub-post-items {
+    display: grid;
+    grid-template-columns: 1fr 2fr 8fr;
+    width: 100%;
+    padding: 0px 10px 10px 10px;
+}
+
+.sub-post-button {
+    color: rgb(100, 100, 100);
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 6px;
+    width: 50px;
+    justify-self: start;
+}
+
+.sub-post-button:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .post-date {
-    align-self: flex-end;
     font-size: 10px;
     padding: 3px;
     background-color: rgba(245, 245, 245, 0.65);
     border-radius: 0px 0px 4px 4px;
     box-shadow: 2px 2px 4px rgba(65, 88, 82, 0.3);
+    width: 130px;
+    justify-self: end;
+    text-align: center;
 }
 
 .input-container {
@@ -80,7 +104,7 @@
     transition-duration: 250ms;
 }
 
-button {
+#publish-button {
     padding: 6px 10px;
     margin-left: 16px;
     border: 1.5px solid hsl(165 50% 50%);
@@ -92,9 +116,14 @@ button {
     transition-duration: 200ms;
 }
 
-button:hover {
+#publish-button:hover {
     border: 1.5px solid hsl(165 50% 50%);
     color: hsl(165 50% 50%);
     background-color: white;
     transition-duration: 200ms;
+    cursor: pointer;
+}
+
+li {
+    list-style: none;
 }
