@@ -13,6 +13,7 @@ publishBtn.addEventListener('click', function() {
     const currentDate = new Date().toLocaleString();
     
     //add classes to created elements
+    postContainer.classList.add('new-post-container');
     newPost.classList.add('post');
     postContent.classList.add('post-content');
     subPostItems.classList.add('sub-post-items');

@@ -54,6 +54,18 @@
     padding: 0px 10px 10px 10px;
 }
 
+.new-post-container > .sub-post-items .sub-post-button {
+    opacity: 0;
+    transform: translateY(-5px);
+    transition-duration: 150ms;
+}
+
+.new-post-container:hover > .sub-post-items .sub-post-button {
+    opacity: 1;
+    transform: translateY(0px);
+    transition-duration: 150ms;
+}
+
 .sub-post-button {
     color: rgb(100, 100, 100);
     font-size: 12px;
