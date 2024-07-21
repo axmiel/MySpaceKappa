@@ -1,5 +1,6 @@
-const publishBtn = document.getElementById('publish-button');
+const postInnerContainer = document.querySelector('.posts-inner-container');
 
+const publishBtn = document.getElementById('publish-button');
 publishBtn.addEventListener('click', function() {
     const postContainer = document.createElement('div');
     const newPost = document.createElement('div');
@@ -8,9 +9,15 @@ publishBtn.addEventListener('click', function() {
     const editBtn = document.createElement('li');
     const deleteBtn = document.createElement('li');
     const postDate = document.createElement('li');
-    const postInput = document.getElementById('post-input');
-    const postInnerContainer = document.querySelector('.posts-inner-container');
     const currentDate = new Date().toLocaleString();
+    const postInput = document.getElementById('post-input');
+
+    //checks input and alerts user if input field is blank
+    if (postInput.value.trim() === '') {
+        alert("Please enter some text.");
+        postInput.value = '';
+        return false;
+    }
     
     //add classes to created elements
     postContainer.classList.add('new-post-container');

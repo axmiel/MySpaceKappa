@@ -7,7 +7,7 @@
 
 .posts-container {
     max-width: 500px;
-    margin: 100px auto 15px;
+    margin: 10px auto 15px;
 }
 
 .posts-container h2 {
@@ -22,16 +22,14 @@
     border-radius: 10px;
     background-color: hsl(165 15% 90%);
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     min-height: 40px;
-    max-height: 300px;
+    max-height: auto;
     overflow: auto;
     box-shadow: 2px 2px 8px rgba(65, 88, 82, 0.4);
 }
 
 .post {
-    display: flex;
-    flex-direction: column;
     justify-content: space-between;
     margin: 5px 5px 0px 5px;
     padding: 5px 5px 0px 5px;
@@ -48,10 +46,24 @@
 }
 
 .sub-post-items {
-    display: grid;
-    grid-template-columns: 1fr 2fr 8fr;
+    display: flex;
     width: 100%;
     padding: 0px 10px 10px 10px;
+}
+
+.new-post-container {
+    animation: fade-in-from-above 300ms;
+}
+
+@keyframes fade-in-from-above {
+    0% {
+        transform: translateX(-500px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0px);
+        opacity: 1;
+    }
 }
 
 .new-post-container > .sub-post-items .sub-post-button {
@@ -87,15 +99,19 @@
     border-radius: 0px 0px 4px 4px;
     box-shadow: 2px 2px 4px rgba(65, 88, 82, 0.3);
     width: 130px;
-    justify-self: end;
+    margin-left: auto;
     text-align: center;
 }
 
 .input-container {
     display: flex;
     max-width: 500px;
-    margin: auto;
+    margin: 100px auto 10px;
     justify-content: space-between;
+}
+
+.input-container h2 {
+    margin: auto;
 }
 
 .input-container input {
@@ -104,7 +120,6 @@
     border-radius: 5px;
     padding: 6px 8px;
     flex-grow: 0;
-    transition: ease-in-out;
     transition-duration: 250ms;
 }
 
