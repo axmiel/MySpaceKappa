@@ -1,66 +1,76 @@
 //localStorage.clear();
 const postInnerContainer = document.querySelector('.posts-inner-container');
 const keys = Object.keys(localStorage);
+
 console.log(keys);
-const postRetriever = keys.length/2;
+const postRetriever = keys.length;
 console.log(postRetriever);
-let postCounter = 0;
+let postCounter = postRetriever;
 console.log(postCounter);
 
-
 window.addEventListener('DOMContentLoaded', function() {
-    for (i=0; i<postRetriever; i++) {
-    const postContainer = document.createElement('div');
-    const newPost = document.createElement('div');
-    const postContent = document.createElement('p');
-    const subPostItems = document.createElement('ul');
-    const editBtn = document.createElement('li');
-    const deleteBtn = document.createElement('li');
-    const postDate = document.createElement('li');
-    const fromStoragePostDate = localStorage.getItem('postDate-' + i);
-    const fromStoragePostContent = localStorage.getItem('postContent-' + i);
+    const sortedKeys = keys.toSorted(function(a, b) {
+        if (a < b) {
+            return -1;
+        }
+        else if (a > b) {
+            return 1;
+        }
+        return 0;
+    });
 
-    //add classes to created elements
-    postContainer.classList.add('new-post-container');
-    newPost.classList.add('post');
-    postContent.classList.add('post-content');
-    subPostItems.classList.add('sub-post-items');
-    postDate.classList.add('post-date');
-    editBtn.classList.add('sub-post-button');
-    deleteBtn.classList.add('sub-post-button');
+    for (const key of sortedKeys) {
+        const postContainer = document.createElement('div');
+        const newPost = document.createElement('div');
+        const postContent = document.createElement('p');
+        const subPostItems = document.createElement('ul');
+        const editBtn = document.createElement('li');
+        const deleteBtn = document.createElement('li');
+        const postDate = document.createElement('li');
+        const fromStoragePostContent = localStorage.getItem(key);
+
+        //add classes to created elements
+        postContainer.classList.add('new-post-container');
+        newPost.classList.add('post');
+        postContent.classList.add('post-content');
+        subPostItems.classList.add('sub-post-items');
+        postDate.classList.add('post-date');
+        editBtn.classList.add('sub-post-button');
+        deleteBtn.classList.add('sub-post-button');
     
-    //add attributes to elements
-    editBtn.setAttribute('id', 'edit-button');
-    editBtn.setAttribute('role', 'button');
-    deleteBtn.setAttribute('id', 'delete-button');
-    deleteBtn.setAttribute('role', 'button');
-    editBtn.textContent = 'Edit';
-    deleteBtn.textContent = 'Delete';
+        //add attributes to elements
+        editBtn.setAttribute('id', 'edit-button');
+        editBtn.setAttribute('role', 'button');
+        deleteBtn.setAttribute('id', 'delete-button');
+        deleteBtn.setAttribute('role', 'button');
+        editBtn.textContent = 'Edit';
+        deleteBtn.textContent = 'Delete';
 
-    //add retrieved values to elements
-    postDate.textContent = fromStoragePostDate;
-    postContent.textContent = fromStoragePostContent;
-    newPost.append(postContent);
+        //add retrieved values to elements
+        console.log(key);
+        postDate.textContent = new Date(Number(key)).toLocaleString();
+        postContent.textContent = fromStoragePostContent;
+        newPost.append(postContent);
 
-    //build sub-post items
-    subPostItems.append(editBtn, deleteBtn, postDate);
+        //build sub-post items
+        subPostItems.append(editBtn, deleteBtn, postDate);
 
-    //group together post content and sub post items
-    postContainer.append(newPost, subPostItems);
+        //group together post content and sub post items
+        postContainer.append(newPost, subPostItems);
 
-    //add all items to post container
-    postInnerContainer.append(postContainer);
+        //add all items to post container
+        postInnerContainer.append(postContainer);
 
-    //add functionality of post editing to edit button
-    editBtn.addEventListener('click', function() {
-        const newPostContent = window.prompt('Edit your post', postContent.value);
-        postContent.textContent = newPostContent;
-    })
+        //add functionality of post editing to edit button
+        editBtn.addEventListener('click', function() {
+            const newPostContent = window.prompt('Edit your post', postContent.value);
+            postContent.textContent = newPostContent;
+        })
 
-    deleteBtn.addEventListener('click', function() {
-        if (window.confirm('Do you want to delete your post?')) {
-            postContainer.remove();
-        };
+        deleteBtn.addEventListener('click', function() {
+            if (window.confirm('Do you want to delete your post?')) {
+                postContainer.remove();
+            };
     })
     }
 });
@@ -76,6 +86,8 @@ publishBtn.addEventListener('click', function() {
     const deleteBtn = document.createElement('li');
     const postDate = document.createElement('li');
     const currentDate = new Date().toLocaleString();
+    const timestamp = Date.now();
+    console.log(timestamp);
     const postInput = document.getElementById('post-input');
 
     //checks input and alerts user if input field is blank
@@ -108,8 +120,7 @@ publishBtn.addEventListener('click', function() {
     newPost.append(postContent);
 
     //store postContent and postDate in localStorage
-    localStorage.setItem('postContent-' + postCounter, postInput.value);
-    localStorage.setItem('postDate-' + postCounter, currentDate);
+    localStorage.setItem(timestamp, postInput.value);
     postCounter++;
 
     //build sub-post items
