@@ -1,12 +1,8 @@
 //localStorage.clear();
 const postInnerContainer = document.querySelector('.posts-inner-container');
 const keys = Object.keys(localStorage);
-
-console.log(keys);
 const postRetriever = keys.length;
-console.log(postRetriever);
 let postCounter = postRetriever;
-console.log(postCounter);
 
 window.addEventListener('DOMContentLoaded', function() {
     const sortedKeys = keys.toSorted(function(a, b) {
@@ -47,7 +43,6 @@ window.addEventListener('DOMContentLoaded', function() {
         deleteBtn.textContent = 'Delete';
 
         //add retrieved values to elements
-        console.log(key);
         postDate.textContent = new Date(Number(key)).toLocaleString();
         postContent.textContent = fromStoragePostContent;
         newPost.append(postContent);
@@ -65,11 +60,13 @@ window.addEventListener('DOMContentLoaded', function() {
         editBtn.addEventListener('click', function() {
             const newPostContent = window.prompt('Edit your post', postContent.value);
             postContent.textContent = newPostContent;
+            localStorage.setItem(key, newPostContent);
         })
 
         deleteBtn.addEventListener('click', function() {
             if (window.confirm('Do you want to delete your post?')) {
                 postContainer.remove();
+                localStorage.removeItem(key);
             };
     })
     }
@@ -87,7 +84,6 @@ publishBtn.addEventListener('click', function() {
     const postDate = document.createElement('li');
     const currentDate = new Date().toLocaleString();
     const timestamp = Date.now();
-    console.log(timestamp);
     const postInput = document.getElementById('post-input');
 
     //checks input and alerts user if input field is blank
@@ -138,11 +134,13 @@ publishBtn.addEventListener('click', function() {
     editBtn.addEventListener('click', function() {
         const newPostContent = window.prompt('Edit your post', postContent.value);
         postContent.textContent = newPostContent;
+        localStorage.setItem(timestamp, newPostContent)
     })
 
     deleteBtn.addEventListener('click', function() {
         if (window.confirm('Do you want to delete your post?')) {
             postContainer.remove();
+            localStorage.removeItem(timestamp);
         };
     })
 });
