@@ -1,21 +1,22 @@
 //localStorage.clear();
 const postInnerContainer = document.querySelector('.posts-inner-container');
-const keys = Object.keys(localStorage);
-const postRetriever = keys.length;
-let postCounter = postRetriever;
+
+const retrievedData = localStorage.getItem('postData');
+let postData = JSON.parse(retrievedData);
+if (postData === null) {
+    postData = {};
+}
+
+const keys = Object.keys(postData);
 
 window.addEventListener('DOMContentLoaded', function() {
-    const sortedKeys = keys.toSorted(function(a, b) {
-        if (a < b) {
-            return -1;
-        }
-        else if (a > b) {
-            return 1;
-        }
-        return 0;
-    });
-
-    for (const key of sortedKeys) {
+    //IMPORTANT TO NOTE:
+    //postData is an object literal
+    //its key is a post UUID
+    //its value is an array with 
+    //position 0 = post creation date
+    //position 1 = post content
+    for (const key of keys) {
         const postContainer = document.createElement('div');
         const newPost = document.createElement('div');
         const postContent = document.createElement('p');
@@ -23,7 +24,7 @@ window.addEventListener('DOMContentLoaded', function() {
         const editBtn = document.createElement('li');
         const deleteBtn = document.createElement('li');
         const postDate = document.createElement('li');
-        const fromStoragePostContent = localStorage.getItem(key);
+        const fromStoragePostContent = postData[key][1];
 
         //add classes to created elements
         postContainer.classList.add('new-post-container');
@@ -43,7 +44,7 @@ window.addEventListener('DOMContentLoaded', function() {
         deleteBtn.textContent = 'Delete';
 
         //add retrieved values to elements
-        postDate.textContent = new Date(Number(key)).toLocaleString();
+        postDate.textContent = new Date(Number(postData[key][0])).toLocaleString();
         postContent.textContent = fromStoragePostContent;
         newPost.append(postContent);
 
@@ -56,22 +57,23 @@ window.addEventListener('DOMContentLoaded', function() {
         //add all items to post container
         postInnerContainer.append(postContainer);
 
-        //add functionality of post editing to edit button
+        //add functionality of post editing and removal
         editBtn.addEventListener('click', function() {
             const newPostContent = window.prompt('Edit your post', postContent.value);
             postContent.textContent = newPostContent;
-            localStorage.setItem(key, newPostContent);
+            postData[key][1] = newPostContent;
+            localStorage.setItem('postData', JSON.stringify(postData));
         })
 
         deleteBtn.addEventListener('click', function() {
             if (window.confirm('Do you want to delete your post?')) {
                 postContainer.remove();
-                localStorage.removeItem(key);
+                delete postData[key];
+                localStorage.setItem('postData', JSON.stringify(postData));
             };
     })
     }
 });
-
 
 const publishBtn = document.getElementById('publish-button');
 publishBtn.addEventListener('click', function() {
@@ -84,6 +86,7 @@ publishBtn.addEventListener('click', function() {
     const postDate = document.createElement('li');
     const currentDate = new Date().toLocaleString();
     const timestamp = Date.now();
+    const postUUID = timestamp * Math.floor((Math.random() + 1) * 1000);
     const postInput = document.getElementById('post-input');
 
     //checks input and alerts user if input field is blank
@@ -116,8 +119,13 @@ publishBtn.addEventListener('click', function() {
     newPost.append(postContent);
 
     //store postContent and postDate in localStorage
+    postData[postUUID] = [timestamp, postInput.value];
+    localStorage.setItem('postData', JSON.stringify(postData));
+
+/*  
     localStorage.setItem(timestamp, postInput.value);
     postCounter++;
+*/
 
     //build sub-post items
     subPostItems.append(editBtn, deleteBtn, postDate);
@@ -130,17 +138,19 @@ publishBtn.addEventListener('click', function() {
 
     postInput.value = '';
 
-    //add functionality of post editing to edit button
+    //add functionality of post editing and removal
     editBtn.addEventListener('click', function() {
         const newPostContent = window.prompt('Edit your post', postContent.value);
         postContent.textContent = newPostContent;
-        localStorage.setItem(timestamp, newPostContent)
+        postData[postUUID][1] = newPostContent;
+        localStorage.setItem('postData', JSON.stringify(postData));
     })
 
     deleteBtn.addEventListener('click', function() {
         if (window.confirm('Do you want to delete your post?')) {
             postContainer.remove();
-            localStorage.removeItem(timestamp);
+            delete postData[postUUID];
+            localStorage.setItem('postData', JSON.stringify(postData));
         };
     })
 });
